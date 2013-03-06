@@ -17,13 +17,23 @@
   text-align: left;
 }
 
+.daterangepicker .ranges .range_inputs>div {
+  float: left;
+}
+
+.daterangepicker .ranges .range_inputs>div:nth-child(2) {
+  padding-left: 11px;
+}
+
 .daterangepicker .calendar {
   display: none;
   max-width: 230px;
 }
 
 .daterangepicker .calendar th, .daterangepicker .calendar td {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;  
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  white-space: nowrap;
+  text-align: center;
 }
 
 .daterangepicker .ranges label {
@@ -155,6 +165,13 @@
   background: #eee;
 }
 
+.daterangepicker td.in-range {
+  background: #ebf4f8;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+
 .daterangepicker td.active, .daterangepicker td.active:hover {
   background-color: #006dcc;
   background-image: -moz-linear-gradient(top, #0088cc, #0044cc);
@@ -170,4 +187,25 @@
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   color: #fff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.daterangepicker td.week, .daterangepicker th.week {
+    font-size: 80%;
+    color: #ccc;
+}
+
+.daterangepicker select.monthselect, .daterangepicker select.yearselect {
+  font-size: 12px;
+  padding:1px;
+  height:auto;
+  margin:0;
+  cursor:default;
+}
+
+.daterangepicker select.monthselect {
+	margin-right:2%;
+	width:56%;
+}
+.daterangepicker select.yearselect {
+	width:40%;
 }
