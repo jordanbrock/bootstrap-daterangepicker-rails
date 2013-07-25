@@ -30,6 +30,7 @@ gem 'coffee-rails'
 # application.js
 
 //= require date
+//= require moment
 //= require daterangepicker
 
 
