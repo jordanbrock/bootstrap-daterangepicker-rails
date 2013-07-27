@@ -1,5 +1,10 @@
 # Date Range Picker for Twitter Bootstrap
 
+To use with Rails 4.x, use this branch: https://github.com/jordanbrock/bootstrap-daterangepicker-rails/tree/rails4
+
+Thanks to @allomov for doing all the work on the 4.x branch.
+
+
 _Description from DateRangePicker for Twitter Bootstrap_
 
 This date range picker component for Twitter Bootstrap creates a dropdown menu from which a user can 
