@@ -29,7 +29,6 @@ Basic usage:
 # Gemfile
 gem 'jquery-rails'
 gem 'bootstrap-daterangepicker-rails'
-gem 'coffee-rails'
 
 
 # application.js
