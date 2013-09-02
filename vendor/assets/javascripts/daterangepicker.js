@@ -25,7 +25,7 @@
         this.timePicker = false;
         this.timePickerIncrement = 30;
         this.timePicker12Hour = true;
-        this.ranges = {};        
+        this.ranges = {};
         this.opens = 'right';
 
         this.buttonClasses = ['btn', 'btn-small'];
@@ -42,8 +42,8 @@
             toLabel: 'To',
             weekLabel: 'W',
             customRangeLabel: 'Custom Range',
-            daysOfWeek: moment()._lang._weekdaysMin,
-            monthNames: moment()._lang._monthsShort,
+            daysOfWeek: moment()._lang._weekdaysMin.slice(),
+            monthNames: moment()._lang._monthsShort.slice(),
             firstDay: 0
         };
 
@@ -264,8 +264,8 @@
         }
 
         //state
-        this.oldStartDate = this.startDate;
-        this.oldEndDate = this.endDate;
+        this.oldStartDate = this.startDate.clone();
+        this.oldEndDate = this.endDate.clone();
 
         this.leftCalendar = {
             month: moment([this.startDate.year(), this.startDate.month(), 1, this.startDate.hour(), this.startDate.minute()]),
@@ -284,6 +284,9 @@
         this.container.find('.ranges').on('click', 'button.applyBtn', $.proxy(this.clickApply, this));
         this.container.find('.ranges').on('click', 'button.cancelBtn', $.proxy(this.clickCancel, this));
 
+        this.container.find('.ranges').on('click', '.daterangepicker_start_input', $.proxy(this.showCalendars, this));
+        this.container.find('.ranges').on('click', '.daterangepicker_end_input', $.proxy(this.showCalendars, this));
+
         this.container.find('.calendar').on('click', 'td.available', $.proxy(this.clickDate, this));
         this.container.find('.calendar').on('mouseenter', 'td.available', $.proxy(this.enterDate, this));
         this.container.find('.calendar').on('mouseleave', 'td.available', $.proxy(this.updateView, this));
@@ -292,8 +295,8 @@
         this.container.find('.ranges').on('mouseenter', 'li', $.proxy(this.enterRange, this));
         this.container.find('.ranges').on('mouseleave', 'li', $.proxy(this.updateView, this));
 
-        this.container.find('.calendar').on('change', 'select.yearselect', $.proxy(this.updateYear, this));
-        this.container.find('.calendar').on('change', 'select.monthselect', $.proxy(this.updateMonth, this));
+        this.container.find('.calendar').on('change', 'select.yearselect', $.proxy(this.updateMonthYear, this));
+        this.container.find('.calendar').on('change', 'select.monthselect', $.proxy(this.updateMonthYear, this));
 
         this.container.find('.calendar').on('change', 'select.hourselect', $.proxy(this.updateTime, this));
         this.container.find('.calendar').on('change', 'select.minuteselect', $.proxy(this.updateTime, this));
@@ -342,8 +345,7 @@
             this.startDate = start;
             this.endDate = end;
 
-            this.updateView();
-            this.cb(this.startDate, this.endDate);
+            this.notify();
             this.updateCalendars();
         },
 
@@ -396,9 +398,6 @@
                 e.preventDefault();
             }
 
-            this.oldStartDate = this.startDate;
-            this.oldEndDate = this.endDate;
-
             $(document).on('mousedown', $.proxy(this.hide, this));
             this.element.trigger('shown', {target: e.target, picker: this});
         },
@@ -408,6 +407,9 @@
 
             if (!this.startDate.isSame(this.oldStartDate) || !this.endDate.isSame(this.oldEndDate))
                 this.notify();
+
+            this.oldStartDate = this.startDate.clone();
+            this.oldEndDate = this.endDate.clone();
 
             $(document).off('mousedown', this.hide);
             this.element.trigger('hidden', { picker: this });
@@ -424,11 +426,20 @@
             }
         },
 
+        showCalendars: function() {
+            this.container.find('.calendar').show();
+            this.move();
+        },
+
+        updateInputText: function() {
+            if (this.element.is('input'))
+                this.element.val(this.startDate.format(this.format) + this.separator + this.endDate.format(this.format));
+        },
+
         clickRange: function (e) {
             var label = e.target.innerHTML;
             if (label == this.locale.customRangeLabel) {
-                this.container.find('.calendar').show();
-                this.move();
+                this.showCalendars();
             } else {
                 var dates = this.ranges[label];
 
@@ -444,8 +455,7 @@
                 this.rightCalendar.month.month(this.endDate.month()).year(this.endDate.year()).hour(this.endDate.hour()).minute(this.endDate.minute());
                 this.updateCalendars();
 
-                if (this.element.is('input'))
-                    this.element.val(this.startDate.format(this.format) + this.separator + this.endDate.format(this.format));
+                this.updateInputText();
 
                 this.container.find('.calendar').hide();
                 this.hide();
@@ -531,8 +541,7 @@
         },
 
         clickApply: function (e) {
-            if (this.element.is('input'))
-                this.element.val(this.startDate.format(this.format) + this.separator + this.endDate.format(this.format));            
+            this.updateInputText();
             this.hide();
         },
 
@@ -544,29 +553,24 @@
             this.hide();
         },
 
-        updateYear: function (e) {
-            var year = parseInt($(e.target).val());
+        updateMonthYear: function (e) {
+
             var isLeft = $(e.target).closest('.calendar').hasClass('left');
+            var cal = this.container.find('.calendar.left');
+            if (!isLeft)
+                cal = this.container.find('.calendar.right');
+
+            var month = cal.find('.monthselect').val();
+            var year = cal.find('.yearselect').val();
 
             if (isLeft) {
-                this.leftCalendar.month.month(this.startDate.month()).year(year);
+                this.leftCalendar.month.month(month).year(year);
             } else {
-                this.rightCalendar.month.month(this.endDate.month()).year(year);
+                this.rightCalendar.month.month(month).year(year);
             }
 
             this.updateCalendars();
-        },
 
-        updateMonth: function (e) {
-            var month = parseInt($(e.target).val());
-            var isLeft = $(e.target).closest('.calendar').hasClass('left');
-
-            if (isLeft) {
-                this.leftCalendar.month.month(month).year(this.startDate.year());
-            } else {
-                this.rightCalendar.month.month(month).year(this.endDate.year());
-            }
-            this.updateCalendars();
         },
 
         updateTime: function(e) {
@@ -583,6 +587,8 @@
                 var ampm = cal.find('.ampmselect').val();
                 if (ampm == 'PM' && hour < 12)
                     hour += 12;
+                if (ampm == 'AM' && hour == 12)
+                    hour = 0;
             }
 
             if (isLeft) {
@@ -595,7 +601,7 @@
                 var end = this.endDate;
                 end.hour(hour);
                 end.minute(minute);
-                this.endDate = end;              
+                this.endDate = end;
                 this.rightCalendar.month.hour(hour).minute(minute);
             }
 
@@ -711,7 +717,7 @@
                 html += '<th></th>';
 
             if (!minDate || minDate.isBefore(calendar[1][1])) {
-                html += '<th class="prev available"><i class="icon-arrow-left"></i></th>';
+                html += '<th class="prev available"><i class="icon-arrow-left glyphicon glyphicon-arrow-left"></i></th>';
             } else {
                 html += '<th></th>';
             }
@@ -724,7 +730,7 @@
 
             html += '<th colspan="5" style="width: auto">' + dateHtml + '</th>';
             if (!maxDate || maxDate.isAfter(calendar[1][1])) {
-                html += '<th class="next available"><i class="icon-arrow-right"></i></th>';
+                html += '<th class="next available"><i class="icon-arrow-right glyphicon glyphicon-arrow-right"></i></th>';
             } else {
                 html += '<th></th>';
             }

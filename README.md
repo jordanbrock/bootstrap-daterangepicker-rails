@@ -41,7 +41,7 @@ gem 'bootstrap-daterangepicker-rails'
 
 /*
  *= require bootstrap
- *= require daterangepicker
+ *= require daterangepicker-bs3.css
  */
 
 
