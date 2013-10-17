@@ -323,22 +323,20 @@
         },
 
         updateView: function () {
-            console.log('in updateView and right calendar month is ' + this.rightCalendar.month.month())
             this.leftCalendar.month.month(this.startDate.month()).year(this.startDate.year());
             this.rightCalendar.month.month(this.endDate.month()).year(this.endDate.year());
             this.updateFormInputs();
-            console.log('in updateView after all and right calendar month is ' + this.rightCalendar.month.month())
         },
 
         updateFormInputs: function () {
             this.container.find('input[name=daterangepicker_start]').val(this.startDate.format(this.format));
-            this.container.find('input[name=daterangepicker_end]').val(this.endDate.format(this.format));            
+            this.container.find('input[name=daterangepicker_end]').val(this.endDate.format(this.format));
 
             if (this.startDate.isSame(this.endDate) || this.startDate.isBefore(this.endDate)) {
                 this.container.find('button.applyBtn').removeAttr('disabled');
             } else {
                 this.container.find('button.applyBtn').attr('disabled', 'disabled');
-            }            
+            }
         },
 
         updateFromControl: function () {
@@ -352,10 +350,15 @@
             if (start == null || end == null) return;
             if (end.isBefore(start)) return;
 
+            this.oldStartDate = this.startDate.clone();
+            this.oldEndDate = this.endDate.clone();
+
             this.startDate = start;
             this.endDate = end;
 
-            this.notify();
+            if (!this.startDate.isSame(this.oldStartDate) || !this.endDate.isSame(this.oldEndDate))
+                this.notify();
+
             this.updateCalendars();
         },
 
@@ -474,7 +477,6 @@
             if (cal.hasClass('left')) {
                 this.leftCalendar.month.subtract('month', 1);
             } else {
-                console.log('clickPrev month is ' + this.rightCalendar.month.month())
                 this.rightCalendar.month.subtract('month', 1);
             }
             this.updateCalendars();
@@ -543,7 +545,6 @@
                 this.endDate = moment(startDate).add('day', 1).startOf('day');
             }
 
-            console.log('in clickDate and updating right calendar month')
             this.leftCalendar.month.month(this.startDate.month()).year(this.startDate.year());
             this.rightCalendar.month.month(this.endDate.month()).year(this.endDate.year());
             this.updateCalendars();
@@ -571,15 +572,11 @@
 
             var month = parseInt(cal.find('.monthselect').val());
             var year = cal.find('.yearselect').val();
-            console.log("in updatemonthyear month is " + month)
-            console.log("in updatemonthyear year is " + year)
 
             if (isLeft) {
-                console.log('left')
                 this.leftCalendar.month.month(month).year(year);
-            } else {                
+            } else {
                 this.rightCalendar.month.month(month).year(year);
-                console.log('right calendar month is ' + this.rightCalendar.month.month())
             }
 
             this.updateCalendars();
@@ -623,12 +620,10 @@
         },
 
         updateCalendars: function () {
-            console.log("in UpdateCalendars before render calendar and right calendar month is " + this.rightCalendar.month.month() )
             this.leftCalendar.calendar = this.buildCalendar(this.leftCalendar.month.month(), this.leftCalendar.month.year(), this.leftCalendar.month.hour(), this.leftCalendar.month.minute(), 'left');
             this.rightCalendar.calendar = this.buildCalendar(this.rightCalendar.month.month(), this.rightCalendar.month.year(), this.rightCalendar.month.hour(), this.rightCalendar.month.minute(), 'right');
             this.container.find('.calendar.left').html(this.renderCalendar(this.leftCalendar.calendar, this.startDate, this.minDate, this.maxDate));
             this.container.find('.calendar.right').html(this.renderCalendar(this.rightCalendar.calendar, this.endDate, this.startDate, this.maxDate));
-            console.log("in UpdateCalendars after render calendar and right calendar month is " + this.rightCalendar.month.month() )
 
             this.container.find('.ranges li').removeClass('active');
             var customRange = true;
@@ -650,8 +645,6 @@
             }
             if (customRange)
                 this.container.find('.ranges li:last').addClass('active');
-
-            console.log("in UpdateCalendars after everything and right calendar month is " + this.rightCalendar.month.month() )
         },
 
         buildCalendar: function (month, year, hour, minute, side) {
