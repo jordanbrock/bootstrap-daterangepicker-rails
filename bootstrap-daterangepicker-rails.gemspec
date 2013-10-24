@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
 
   # s.add_dependency('rails', '~>3.2')
   s.add_dependency('railties', '~> 4.0.0')
+  s.add_dependency('momentjs-rails', '~> 2.1.0')
 
   s.add_development_dependency 'test-unit',    '~> 2.2.0'
 
