@@ -22,7 +22,9 @@ into the text box. Otherwise, you can provide a custom callback function to rece
 This component relies on [Twitter Bootstrap](http://twitter.github.com/bootstrap/), 
 [momentjs](http://www.momentjs.com/) and [jQuery](http://jquery.com/).
 
-Basic usage:
+Basic usage (with Bootstrap 3):
+
+(Suffix `daterangepicker` with `-bs2` or `-bs3` for your version of Bootstrap.)
 
 ```
 
@@ -35,14 +37,14 @@ gem 'coffee-rails'
 # application.js
 
 //= require moment
-//= require daterangepicker
+//= require daterangepicker-bs3
 
 
 # application.css
 
 /*
  *= require bootstrap
- *= require daterangepicker
+ *= require daterangepicker-bs3
  */
 
 
