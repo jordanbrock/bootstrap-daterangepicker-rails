@@ -37,7 +37,7 @@ gem 'coffee-rails'
 # application.js
 
 //= require moment
-//= require daterangepicker-bs3
+//= require daterangepicker
 
 
 # application.css
