@@ -9,13 +9,11 @@ Gem::Specification.new do |s|
   s.authors = ["Dan Grossman", "Jordan Brock"]
   s.email = %q{jordan@brock.id.au}
   s.homepage = %q{http://github.com/jordanbrock/bootstrap-daterangepicker-rails}
-  s.summary = %q{Rails 3.2.x plugin to allow for the easy use of Dan Grossman's Bootstrap DateRangePicker}
-  s.description = %q{Rails 3.2.x plugin to allow for the easy use of Dan Grossman's Bootstrap DateRangePicker}
+  s.summary = %q{Rails 4.1x plugin to allow for the easy use of Dan Grossman's Bootstrap DateRangePicker}
+  s.description = %q{Rails 4.1.x plugin to allow for the easy use of Dan Grossman's Bootstrap DateRangePicker}
 
-  # s.add_dependency('rails', '~>3.2')
-  s.add_dependency('railties', '>= 3.1')
-
-  s.add_development_dependency 'test-unit',    '~> 2.2.0'
+  s.add_dependency('railties', '~> 4.1')
+  s.add_development_dependency 'test-unit',    '~> 2.2'
 
   s.files         = Dir['{lib,vendor}/**/*'] + %w{LICENSE README.md Rakefile}
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

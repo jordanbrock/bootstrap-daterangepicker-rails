@@ -1,10 +1,5 @@
 # Date Range Picker for Twitter Bootstrap
 
-To use with Rails 4.x, use this branch: https://github.com/jordanbrock/bootstrap-daterangepicker-rails/tree/rails4
-
-Thanks to https://github.com/allomov for doing all the work on the 4.x branch.
-
-
 _Description from DateRangePicker for Twitter Bootstrap_
 
 This date range picker component for Twitter Bootstrap creates a dropdown menu from which a user can 
@@ -17,12 +12,12 @@ into the text box. Otherwise, you can provide a custom callback function to rece
 
 [Live demo &amp; option usage examples](http://www.dangrossman.info/2012/08/20/a-date-range-picker-for-twitter-bootstrap/)
 
-## Usage
+## Installation and Usage
 
 This component relies on [Twitter Bootstrap](http://twitter.github.com/bootstrap/), 
 [momentjs](http://www.momentjs.com/) and [jQuery](http://jquery.com/).
 
-Basic usage (with Bootstrap 3):
+Basic usage (with Bootstrap 3)
 
 (Suffix `daterangepicker` with `-bs2` or `-bs3` for your version of Bootstrap.)
 
@@ -30,9 +25,8 @@ Basic usage (with Bootstrap 3):
 
 # Gemfile
 gem 'jquery-rails'
+gem 'momentjs-rails'
 gem 'bootstrap-daterangepicker-rails'
-gem 'coffee-rails'
-
 
 # application.js
 
@@ -65,6 +59,11 @@ Additional options allow:
 * Setting the date format string for parsing string inputs
 
 Syntax for all the options can be found in the examples.html file.
+
+
+## Thanks
+
+Thanks to https://github.com/allomov for doing all the work on the 4.x branch.
 
 ## License
 
