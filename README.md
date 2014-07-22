@@ -40,13 +40,22 @@ gem 'bootstrap-daterangepicker-rails'
  *= require bootstrap
  *= require daterangepicker-bs3
  */
+ 
+ 
+# In your HTML file
 
+<input type="text" class="daterange"/>
 
 <script type="text/javascript">
 $(document).ready(function() {
   $('input[name="daterange"]').daterangepicker();
 });
 </script>
+
+# for a simple_form field just do something like this and include the above javascript
+
+= f.input :field_name, html: { class: "daterange" }
+
 ```
 
 Additional options allow:
