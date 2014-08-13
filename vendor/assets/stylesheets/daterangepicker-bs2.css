@@ -41,7 +41,7 @@
   max-width: 250px;
 }
 .daterangepicker.show-calendar .calendar {
-    display: block;
+  display: block;
 }
 
 .daterangepicker .calendar.single .calendar-date {
@@ -247,7 +247,7 @@
 }
 
 .daterangepicker_end_input {
-  float: left; 
+  float: left;
   padding-left: 11px
 }
 
