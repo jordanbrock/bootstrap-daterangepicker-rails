@@ -48,7 +48,7 @@ gem 'bootstrap-daterangepicker-rails'
 
 <script type="text/javascript">
 $(document).ready(function() {
-  $('input[name="daterange"]').daterangepicker();
+  $('input[class="daterange"]').daterangepicker();
 });
 </script>
 
