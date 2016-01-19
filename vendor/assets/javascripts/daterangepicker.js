@@ -1,36 +1,36 @@
 /**
-* @version: 2.1.12
-* @author: Dan Grossman http://www.dangrossman.info/
-* @copyright: Copyright (c) 2012-2015 Dan Grossman. All rights reserved.
-* @license: Licensed under the MIT license. See http://www.opensource.org/licenses/mit-license.php
-* @website: https://www.improvely.com/
-*/
+ * @version: 2.1.17
+ * @author: Dan Grossman http://www.dangrossman.info/
+ * @copyright: Copyright (c) 2012-2015 Dan Grossman. All rights reserved.
+ * @license: Licensed under the MIT license. See http://www.opensource.org/licenses/mit-license.php
+ * @website: https://www.improvely.com/
+ */
 
 (function(root, factory) {
 
-  if (typeof define === 'function' && define.amd) {
-    define(['moment', 'jquery', 'exports'], function(momentjs, $, exports) {
-      root.daterangepicker = factory(root, exports, momentjs, $);
-    });
+    if (typeof define === 'function' && define.amd) {
+        define(['moment', 'jquery', 'exports'], function(momentjs, $, exports) {
+            root.daterangepicker = factory(root, exports, momentjs, $);
+        });
 
-  } else if (typeof exports !== 'undefined') {
-      var momentjs = require('moment');
-      var jQuery = (typeof window != 'undefined') ? window.jQuery : undefined;  //isomorphic issue
-      if (!jQuery) {
-          try {
-              jQuery = require('jquery');
-              if (!jQuery.fn) jQuery.fn = {}; //isomorphic issue
-          } catch (err) {
-              if (!jQuery) throw new Error('jQuery dependency not found');
-          }
-      }
+    } else if (typeof exports !== 'undefined') {
+        var momentjs = require('moment');
+        var jQuery = (typeof window != 'undefined') ? window.jQuery : undefined;  //isomorphic issue
+        if (!jQuery) {
+            try {
+                jQuery = require('jquery');
+                if (!jQuery.fn) jQuery.fn = {}; //isomorphic issue
+            } catch (err) {
+                if (!jQuery) throw new Error('jQuery dependency not found');
+            }
+        }
 
-    factory(root, exports, momentjs, jQuery);
+        factory(root, exports, momentjs, jQuery);
 
-  // Finally, as a browser global.
-  } else {
-    root.daterangepicker = factory(root, {}, root.moment || moment, (root.jQuery || root.Zepto || root.ender || root.$));
-  }
+        // Finally, as a browser global.
+    } else {
+        root.daterangepicker = factory(root, {}, root.moment || moment, (root.jQuery || root.Zepto || root.ender || root.$));
+    }
 
 }(this || {}, function(root, daterangepicker, moment, $) { // 'this' doesn't exist on a server
 
@@ -99,34 +99,34 @@
         if (typeof options.template !== 'string')
             options.template = '<div class="daterangepicker dropdown-menu">' +
                 '<div class="calendar left">' +
-                    '<div class="daterangepicker_input">' +
-                      '<input class="input-mini" type="text" name="daterangepicker_start" value="" />' +
-                      '<i class="fa fa-calendar glyphicon glyphicon-calendar"></i>' +
-                      '<div class="calendar-time">' +
-                        '<div></div>' +
-                        '<i class="fa fa-clock-o glyphicon glyphicon-time"></i>' +
-                      '</div>' +
-                    '</div>' +
-                    '<div class="calendar-table"></div>' +
+                '<div class="daterangepicker_input">' +
+                '<input class="input-mini" type="text" name="daterangepicker_start" value="" />' +
+                '<i class="fa fa-calendar glyphicon glyphicon-calendar"></i>' +
+                '<div class="calendar-time">' +
+                '<div></div>' +
+                '<i class="fa fa-clock-o glyphicon glyphicon-time"></i>' +
+                '</div>' +
+                '</div>' +
+                '<div class="calendar-table"></div>' +
                 '</div>' +
                 '<div class="calendar right">' +
-                    '<div class="daterangepicker_input">' +
-                      '<input class="input-mini" type="text" name="daterangepicker_end" value="" />' +
-                      '<i class="fa fa-calendar glyphicon glyphicon-calendar"></i>' +
-                      '<div class="calendar-time">' +
-                        '<div></div>' +
-                        '<i class="fa fa-clock-o glyphicon glyphicon-time"></i>' +
-                      '</div>' +
-                    '</div>' +
-                    '<div class="calendar-table"></div>' +
+                '<div class="daterangepicker_input">' +
+                '<input class="input-mini" type="text" name="daterangepicker_end" value="" />' +
+                '<i class="fa fa-calendar glyphicon glyphicon-calendar"></i>' +
+                '<div class="calendar-time">' +
+                '<div></div>' +
+                '<i class="fa fa-clock-o glyphicon glyphicon-time"></i>' +
+                '</div>' +
+                '</div>' +
+                '<div class="calendar-table"></div>' +
                 '</div>' +
                 '<div class="ranges">' +
-                    '<div class="range_inputs">' +
-                        '<button class="applyBtn" disabled="disabled" type="button"></button> ' +
-                        '<button class="cancelBtn" type="button"></button>' +
-                    '</div>' +
+                '<div class="range_inputs">' +
+                '<button class="applyBtn" disabled="disabled" type="button"></button> ' +
+                '<button class="cancelBtn" type="button"></button>' +
                 '</div>' +
-            '</div>';
+                '</div>' +
+                '</div>';
 
         this.parentEl = (options.parentEl && $(options.parentEl).length) ? $(options.parentEl) : $(this.parentEl);
         this.container = $(options.template).appendTo(this.parentEl);
@@ -147,22 +147,22 @@
                 this.locale.daysOfWeek = options.locale.daysOfWeek.slice();
 
             if (typeof options.locale.monthNames === 'object')
-              this.locale.monthNames = options.locale.monthNames.slice();
+                this.locale.monthNames = options.locale.monthNames.slice();
 
             if (typeof options.locale.firstDay === 'number')
-              this.locale.firstDay = options.locale.firstDay;
+                this.locale.firstDay = options.locale.firstDay;
 
             if (typeof options.locale.applyLabel === 'string')
-              this.locale.applyLabel = options.locale.applyLabel;
+                this.locale.applyLabel = options.locale.applyLabel;
 
             if (typeof options.locale.cancelLabel === 'string')
-              this.locale.cancelLabel = options.locale.cancelLabel;
+                this.locale.cancelLabel = options.locale.cancelLabel;
 
             if (typeof options.locale.weekLabel === 'string')
-              this.locale.weekLabel = options.locale.weekLabel;
+                this.locale.weekLabel = options.locale.weekLabel;
 
             if (typeof options.locale.customRangeLabel === 'string')
-              this.locale.customRangeLabel = options.locale.customRangeLabel;
+                this.locale.customRangeLabel = options.locale.customRangeLabel;
 
         }
 
@@ -317,7 +317,12 @@
                 if ((this.minDate && end.isBefore(this.minDate)) || (maxDate && start.isAfter(maxDate)))
                     continue;
 
-                this.ranges[range] = [start, end];
+                //Support unicode chars in the range names.
+                var elem = document.createElement('textarea');
+                elem.innerHTML = range;
+                var rangeHtml = elem.value;
+
+                this.ranges[rangeHtml] = [start, end];
             }
 
             var list = '<ul>';
@@ -483,6 +488,8 @@
             if (this.dateLimit && this.startDate.clone().add(this.dateLimit).isBefore(this.endDate))
                 this.endDate = this.startDate.clone().add(this.dateLimit);
 
+            this.previousRightTime = this.endDate.clone();
+
             if (!this.isShowing)
                 this.updateElement();
 
@@ -523,7 +530,7 @@
                     (this.startDate.format('YYYY-MM') == this.leftCalendar.month.format('YYYY-MM') || this.startDate.format('YYYY-MM') == this.rightCalendar.month.format('YYYY-MM'))
                     &&
                     (this.endDate.format('YYYY-MM') == this.leftCalendar.month.format('YYYY-MM') || this.endDate.format('YYYY-MM') == this.rightCalendar.month.format('YYYY-MM'))
-                    ) {
+                ) {
                     return;
                 }
 
@@ -562,7 +569,7 @@
                     minute = parseInt(this.container.find('.right .minuteselect').val(), 10);
                     second = this.timePickerSeconds ? parseInt(this.container.find('.right .secondselect').val(), 10) : 0;
                     if (!this.timePicker24Hour) {
-                        var ampm = this.container.find('.left .ampmselect').val();
+                        var ampm = this.container.find('.right .ampmselect').val();
                         if (ampm === 'PM' && hour < 12)
                             hour += 12;
                         if (ampm === 'AM' && hour === 12)
@@ -839,8 +846,32 @@
                 selected = this.startDate.clone();
                 minDate = this.minDate;
             } else if (side == 'right') {
-                selected = this.endDate ? this.endDate.clone() : this.startDate.clone();
+                selected = this.endDate ? this.endDate.clone() : this.previousRightTime.clone();
                 minDate = this.startDate;
+
+                //Preserve the time already selected
+                var timeSelector = this.container.find('.calendar.right .calendar-time div');
+                if (timeSelector.html() != '') {
+
+                    selected.hour(timeSelector.find('.hourselect option:selected').val() || selected.hour());
+                    selected.minute(timeSelector.find('.minuteselect option:selected').val() || selected.minute());
+                    selected.second(timeSelector.find('.secondselect option:selected').val() || selected.second());
+
+                    if (!this.timePicker24Hour) {
+                        var ampm = timeSelector.find('.ampmselect option:selected').val();
+                        if (ampm === 'PM' && selected.hour() < 12)
+                            selected.hour(selected.hour() + 12);
+                        if (ampm === 'AM' && selected.hour() === 12)
+                            selected.hour(0);
+                    }
+
+                    if (selected.isBefore(this.startDate))
+                        selected = this.startDate.clone();
+
+                    if (selected.isAfter(maxDate))
+                        selected = maxDate.clone();
+
+                }
             }
 
             //
@@ -1012,7 +1043,7 @@
                 this.container.css({
                     top: containerTop,
                     left: this.element.offset().left - parentOffset.left + this.element.outerWidth() / 2
-                            - this.container.outerWidth() / 2,
+                    - this.container.outerWidth() / 2,
                     right: 'auto'
                 });
                 if (this.container.offset().left < 0) {
@@ -1041,18 +1072,23 @@
 
             // Create a click proxy that is private to this instance of datepicker, for unbinding
             this._outsideClickProxy = $.proxy(function(e) { this.outsideClick(e); }, this);
+
             // Bind global datepicker mousedown for hiding and
             $(document)
-              .on('mousedown.daterangepicker', this._outsideClickProxy)
-              // also support mobile devices
-              .on('touchend.daterangepicker', this._outsideClickProxy)
-              // also explicitly play nice with Bootstrap dropdowns, which stopPropagation when clicking them
-              .on('click.daterangepicker', '[data-toggle=dropdown]', this._outsideClickProxy)
-              // and also close when focus changes to outside the picker (eg. tabbing between controls)
-              .on('focusin.daterangepicker', this._outsideClickProxy);
+                .on('mousedown.daterangepicker', this._outsideClickProxy)
+                // also support mobile devices
+                .on('touchend.daterangepicker', this._outsideClickProxy)
+                // also explicitly play nice with Bootstrap dropdowns, which stopPropagation when clicking them
+                .on('click.daterangepicker', '[data-toggle=dropdown]', this._outsideClickProxy)
+                // and also close when focus changes to outside the picker (eg. tabbing between controls)
+                .on('focusin.daterangepicker', this._outsideClickProxy);
+
+            // Reposition the picker if the window is resized while it's open
+            $(window).on('resize.daterangepicker', $.proxy(function(e) { this.move(e); }, this));
 
             this.oldStartDate = this.startDate.clone();
             this.oldEndDate = this.endDate.clone();
+            this.previousRightTime = this.endDate.clone();
 
             this.updateView();
             this.container.show();
@@ -1078,6 +1114,7 @@
             this.updateElement();
 
             $(document).off('.daterangepicker');
+            $(window).off('.daterangepicker');
             this.container.hide();
             this.element.trigger('hide.daterangepicker', this);
             this.isShowing = false;
@@ -1097,11 +1134,11 @@
             // itself then call this.hide()
             if (
                 // ie modal dialog fix
-                e.type == "focusin" ||
-                target.closest(this.element).length ||
-                target.closest(this.container).length ||
-                target.closest('.calendar-table').length
-                ) return;
+            e.type == "focusin" ||
+            target.closest(this.element).length ||
+            target.closest(this.container).length ||
+            target.closest('.calendar-table').length
+            ) return;
             this.hide();
         },
 
@@ -1244,7 +1281,7 @@
             // * if single date picker mode, and time picker isn't enabled, apply the selection immediately
             //
 
-            if (this.endDate || date.isBefore(this.startDate)) {
+            if (this.endDate || date.isBefore(this.startDate, 'day')) {
                 if (this.timePicker) {
                     var hour = parseInt(this.container.find('.left .hourselect').val(), 10);
                     if (!this.timePicker24Hour) {
@@ -1260,6 +1297,10 @@
                 }
                 this.endDate = null;
                 this.setStartDate(date.clone());
+            } else if (!this.endDate && date.isBefore(this.startDate)) {
+                //special case: clicking the same date for start/end,
+                //but the time of the end date is before the start date
+                this.setEndDate(this.startDate.clone());
             } else {
                 if (this.timePicker) {
                     var hour = parseInt(this.container.find('.right .hourselect').val(), 10);
@@ -1366,8 +1407,11 @@
                 start.minute(minute);
                 start.second(second);
                 this.setStartDate(start);
-                if (this.singleDatePicker)
+                if (this.singleDatePicker) {
                     this.endDate = this.startDate.clone();
+                } else if (this.endDate && this.endDate.format('YYYY-MM-DD') == start.format('YYYY-MM-DD') && this.endDate.isBefore(start)) {
+                    this.setEndDate(start.clone());
+                }
             } else if (this.endDate) {
                 var end = this.endDate.clone();
                 end.hour(hour);
@@ -1419,6 +1463,7 @@
         elementChanged: function() {
             if (!this.element.is('input')) return;
             if (!this.element.val().length) return;
+            if (this.element.val().length < this.locale.format.length) return;
 
             var dateString = this.element.val().split(this.locale.separator),
                 start = null,
@@ -1433,6 +1478,8 @@
                 start = moment(this.element.val(), this.locale.format);
                 end = start;
             }
+
+            if (!start.isValid() || !end.isValid()) return;
 
             this.setStartDate(start);
             this.setEndDate(end);
@@ -1473,5 +1520,7 @@
         });
         return this;
     };
+
+    return DateRangePicker;
 
 }));
