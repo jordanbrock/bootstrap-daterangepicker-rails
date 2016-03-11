@@ -1,36 +1,36 @@
 /**
- * @version: 2.1.17
- * @author: Dan Grossman http://www.dangrossman.info/
- * @copyright: Copyright (c) 2012-2015 Dan Grossman. All rights reserved.
- * @license: Licensed under the MIT license. See http://www.opensource.org/licenses/mit-license.php
- * @website: https://www.improvely.com/
- */
+* @version: 2.1.19
+* @author: Dan Grossman http://www.dangrossman.info/
+* @copyright: Copyright (c) 2012-2015 Dan Grossman. All rights reserved.
+* @license: Licensed under the MIT license. See http://www.opensource.org/licenses/mit-license.php
+* @website: https://www.improvely.com/
+*/
 
 (function(root, factory) {
 
-    if (typeof define === 'function' && define.amd) {
-        define(['moment', 'jquery', 'exports'], function(momentjs, $, exports) {
-            root.daterangepicker = factory(root, exports, momentjs, $);
-        });
+  if (typeof define === 'function' && define.amd) {
+    define(['moment', 'jquery', 'exports'], function(momentjs, $, exports) {
+      root.daterangepicker = factory(root, exports, momentjs, $);
+    });
 
-    } else if (typeof exports !== 'undefined') {
-        var momentjs = require('moment');
-        var jQuery = (typeof window != 'undefined') ? window.jQuery : undefined;  //isomorphic issue
-        if (!jQuery) {
-            try {
-                jQuery = require('jquery');
-                if (!jQuery.fn) jQuery.fn = {}; //isomorphic issue
-            } catch (err) {
-                if (!jQuery) throw new Error('jQuery dependency not found');
-            }
-        }
+  } else if (typeof exports !== 'undefined') {
+      var momentjs = require('moment');
+      var jQuery = (typeof window != 'undefined') ? window.jQuery : undefined;  //isomorphic issue
+      if (!jQuery) {
+          try {
+              jQuery = require('jquery');
+              if (!jQuery.fn) jQuery.fn = {}; //isomorphic issue
+          } catch (err) {
+              if (!jQuery) throw new Error('jQuery dependency not found');
+          }
+      }
 
-        factory(root, exports, momentjs, jQuery);
+    factory(root, exports, momentjs, jQuery);
 
-        // Finally, as a browser global.
-    } else {
-        root.daterangepicker = factory(root, {}, root.moment || moment, (root.jQuery || root.Zepto || root.ender || root.$));
-    }
+  // Finally, as a browser global.
+  } else {
+    root.daterangepicker = factory(root, {}, root.moment || moment, (root.jQuery || root.Zepto || root.ender || root.$));
+  }
 
 }(this || {}, function(root, daterangepicker, moment, $) { // 'this' doesn't exist on a server
 
@@ -48,12 +48,14 @@
         this.singleDatePicker = false;
         this.showDropdowns = false;
         this.showWeekNumbers = false;
+        this.showISOWeekNumbers = false;
         this.timePicker = false;
         this.timePicker24Hour = false;
         this.timePickerIncrement = 1;
         this.timePickerSeconds = false;
         this.linkedCalendars = true;
         this.autoUpdateInput = true;
+        this.alwaysShowCalendars = false;
         this.ranges = {};
 
         this.opens = 'right';
@@ -96,37 +98,37 @@
         options = $.extend(this.element.data(), options);
 
         //html template for the picker UI
-        if (typeof options.template !== 'string')
+        if (typeof options.template !== 'string' && !(options.template instanceof $))
             options.template = '<div class="daterangepicker dropdown-menu">' +
                 '<div class="calendar left">' +
-                '<div class="daterangepicker_input">' +
-                '<input class="input-mini" type="text" name="daterangepicker_start" value="" />' +
-                '<i class="fa fa-calendar glyphicon glyphicon-calendar"></i>' +
-                '<div class="calendar-time">' +
-                '<div></div>' +
-                '<i class="fa fa-clock-o glyphicon glyphicon-time"></i>' +
-                '</div>' +
-                '</div>' +
-                '<div class="calendar-table"></div>' +
+                    '<div class="daterangepicker_input">' +
+                      '<input class="input-mini" type="text" name="daterangepicker_start" value="" />' +
+                      '<i class="fa fa-calendar glyphicon glyphicon-calendar"></i>' +
+                      '<div class="calendar-time">' +
+                        '<div></div>' +
+                        '<i class="fa fa-clock-o glyphicon glyphicon-time"></i>' +
+                      '</div>' +
+                    '</div>' +
+                    '<div class="calendar-table"></div>' +
                 '</div>' +
                 '<div class="calendar right">' +
-                '<div class="daterangepicker_input">' +
-                '<input class="input-mini" type="text" name="daterangepicker_end" value="" />' +
-                '<i class="fa fa-calendar glyphicon glyphicon-calendar"></i>' +
-                '<div class="calendar-time">' +
-                '<div></div>' +
-                '<i class="fa fa-clock-o glyphicon glyphicon-time"></i>' +
-                '</div>' +
-                '</div>' +
-                '<div class="calendar-table"></div>' +
+                    '<div class="daterangepicker_input">' +
+                      '<input class="input-mini" type="text" name="daterangepicker_end" value="" />' +
+                      '<i class="fa fa-calendar glyphicon glyphicon-calendar"></i>' +
+                      '<div class="calendar-time">' +
+                        '<div></div>' +
+                        '<i class="fa fa-clock-o glyphicon glyphicon-time"></i>' +
+                      '</div>' +
+                    '</div>' +
+                    '<div class="calendar-table"></div>' +
                 '</div>' +
                 '<div class="ranges">' +
-                '<div class="range_inputs">' +
-                '<button class="applyBtn" disabled="disabled" type="button"></button> ' +
-                '<button class="cancelBtn" type="button"></button>' +
+                    '<div class="range_inputs">' +
+                        '<button class="applyBtn" disabled="disabled" type="button"></button> ' +
+                        '<button class="cancelBtn" type="button"></button>' +
+                    '</div>' +
                 '</div>' +
-                '</div>' +
-                '</div>';
+            '</div>';
 
         this.parentEl = (options.parentEl && $(options.parentEl).length) ? $(options.parentEl) : $(this.parentEl);
         this.container = $(options.template).appendTo(this.parentEl);
@@ -147,22 +149,22 @@
                 this.locale.daysOfWeek = options.locale.daysOfWeek.slice();
 
             if (typeof options.locale.monthNames === 'object')
-                this.locale.monthNames = options.locale.monthNames.slice();
+              this.locale.monthNames = options.locale.monthNames.slice();
 
             if (typeof options.locale.firstDay === 'number')
-                this.locale.firstDay = options.locale.firstDay;
+              this.locale.firstDay = options.locale.firstDay;
 
             if (typeof options.locale.applyLabel === 'string')
-                this.locale.applyLabel = options.locale.applyLabel;
+              this.locale.applyLabel = options.locale.applyLabel;
 
             if (typeof options.locale.cancelLabel === 'string')
-                this.locale.cancelLabel = options.locale.cancelLabel;
+              this.locale.cancelLabel = options.locale.cancelLabel;
 
             if (typeof options.locale.weekLabel === 'string')
-                this.locale.weekLabel = options.locale.weekLabel;
+              this.locale.weekLabel = options.locale.weekLabel;
 
             if (typeof options.locale.customRangeLabel === 'string')
-                this.locale.customRangeLabel = options.locale.customRangeLabel;
+              this.locale.customRangeLabel = options.locale.customRangeLabel;
 
         }
 
@@ -216,6 +218,9 @@
         if (typeof options.showWeekNumbers === 'boolean')
             this.showWeekNumbers = options.showWeekNumbers;
 
+        if (typeof options.showISOWeekNumbers === 'boolean')
+            this.showISOWeekNumbers = options.showISOWeekNumbers;
+
         if (typeof options.buttonClasses === 'string')
             this.buttonClasses = options.buttonClasses;
 
@@ -254,6 +259,9 @@
 
         if (typeof options.isInvalidDate === 'function')
             this.isInvalidDate = options.isInvalidDate;
+
+        if (typeof options.alwaysShowCalendars === 'boolean')
+            this.alwaysShowCalendars = options.alwaysShowCalendars;
 
         // update day names order to firstDay
         if (this.locale.firstDay != 0) {
@@ -365,7 +373,7 @@
             }
         }
 
-        if (typeof options.ranges === 'undefined' && !this.singleDatePicker) {
+        if ((typeof options.ranges === 'undefined' && !this.singleDatePicker) || this.alwaysShowCalendars) {
             this.container.addClass('show-calendar');
         }
 
@@ -530,7 +538,7 @@
                     (this.startDate.format('YYYY-MM') == this.leftCalendar.month.format('YYYY-MM') || this.startDate.format('YYYY-MM') == this.rightCalendar.month.format('YYYY-MM'))
                     &&
                     (this.endDate.format('YYYY-MM') == this.leftCalendar.month.format('YYYY-MM') || this.endDate.format('YYYY-MM') == this.rightCalendar.month.format('YYYY-MM'))
-                ) {
+                    ) {
                     return;
                 }
 
@@ -587,30 +595,7 @@
             this.container.find('.ranges li').removeClass('active');
             if (this.endDate == null) return;
 
-            var customRange = true;
-            var i = 0;
-            for (var range in this.ranges) {
-                if (this.timePicker) {
-                    if (this.startDate.isSame(this.ranges[range][0]) && this.endDate.isSame(this.ranges[range][1])) {
-                        customRange = false;
-                        this.chosenLabel = this.container.find('.ranges li:eq(' + i + ')').addClass('active').html();
-                        break;
-                    }
-                } else {
-                    //ignore times when comparing dates if time picker is not enabled
-                    if (this.startDate.format('YYYY-MM-DD') == this.ranges[range][0].format('YYYY-MM-DD') && this.endDate.format('YYYY-MM-DD') == this.ranges[range][1].format('YYYY-MM-DD')) {
-                        customRange = false;
-                        this.chosenLabel = this.container.find('.ranges li:eq(' + i + ')').addClass('active').html();
-                        break;
-                    }
-                }
-                i++;
-            }
-            if (customRange) {
-                this.chosenLabel = this.container.find('.ranges li:last').addClass('active').html();
-                this.showCalendars();
-            }
-
+            this.calculateChosenLabel();
         },
 
         renderCalendar: function(side) {
@@ -691,7 +676,7 @@
             html += '<tr>';
 
             // add empty cell for week number
-            if (this.showWeekNumbers)
+            if (this.showWeekNumbers || this.showISOWeekNumbers)
                 html += '<th></th>';
 
             if ((!minDate || minDate.isBefore(calendar.firstDay)) && (!this.linkedCalendars || side == 'left')) {
@@ -746,7 +731,7 @@
             html += '<tr>';
 
             // add week number label
-            if (this.showWeekNumbers)
+            if (this.showWeekNumbers || this.showISOWeekNumbers)
                 html += '<th class="week">' + this.locale.weekLabel + '</th>';
 
             $.each(this.locale.daysOfWeek, function(index, dayOfWeek) {
@@ -772,6 +757,8 @@
                 // add week number
                 if (this.showWeekNumbers)
                     html += '<td class="week">' + calendar[row][0].week() + '</td>';
+                else if (this.showISOWeekNumbers)
+                    html += '<td class="week">' + calendar[row][0].isoWeek() + '</td>';
 
                 for (var col = 0; col < 7; col++) {
 
@@ -1043,7 +1030,7 @@
                 this.container.css({
                     top: containerTop,
                     left: this.element.offset().left - parentOffset.left + this.element.outerWidth() / 2
-                    - this.container.outerWidth() / 2,
+                            - this.container.outerWidth() / 2,
                     right: 'auto'
                 });
                 if (this.container.offset().left < 0) {
@@ -1075,13 +1062,13 @@
 
             // Bind global datepicker mousedown for hiding and
             $(document)
-                .on('mousedown.daterangepicker', this._outsideClickProxy)
-                // also support mobile devices
-                .on('touchend.daterangepicker', this._outsideClickProxy)
-                // also explicitly play nice with Bootstrap dropdowns, which stopPropagation when clicking them
-                .on('click.daterangepicker', '[data-toggle=dropdown]', this._outsideClickProxy)
-                // and also close when focus changes to outside the picker (eg. tabbing between controls)
-                .on('focusin.daterangepicker', this._outsideClickProxy);
+              .on('mousedown.daterangepicker', this._outsideClickProxy)
+              // also support mobile devices
+              .on('touchend.daterangepicker', this._outsideClickProxy)
+              // also explicitly play nice with Bootstrap dropdowns, which stopPropagation when clicking them
+              .on('click.daterangepicker', '[data-toggle=dropdown]', this._outsideClickProxy)
+              // and also close when focus changes to outside the picker (eg. tabbing between controls)
+              .on('focusin.daterangepicker', this._outsideClickProxy);
 
             // Reposition the picker if the window is resized while it's open
             $(window).on('resize.daterangepicker', $.proxy(function(e) { this.move(e); }, this));
@@ -1134,11 +1121,11 @@
             // itself then call this.hide()
             if (
                 // ie modal dialog fix
-            e.type == "focusin" ||
-            target.closest(this.element).length ||
-            target.closest(this.container).length ||
-            target.closest('.calendar-table').length
-            ) return;
+                e.type == "focusin" ||
+                target.closest(this.element).length ||
+                target.closest(this.container).length ||
+                target.closest('.calendar-table').length
+                ) return;
             this.hide();
         },
 
@@ -1185,7 +1172,8 @@
                     this.endDate.endOf('day');
                 }
 
-                this.hideCalendars();
+                if (!this.alwaysShowCalendars)
+                    this.hideCalendars();
                 this.clickApply();
             }
         },
@@ -1285,7 +1273,7 @@
                 if (this.timePicker) {
                     var hour = parseInt(this.container.find('.left .hourselect').val(), 10);
                     if (!this.timePicker24Hour) {
-                        var ampm = cal.find('.ampmselect').val();
+                        var ampm = this.container.find('.left .ampmselect').val();
                         if (ampm === 'PM' && hour < 12)
                             hour += 12;
                         if (ampm === 'AM' && hour === 12)
@@ -1316,8 +1304,10 @@
                     date = date.clone().hour(hour).minute(minute).second(second);
                 }
                 this.setEndDate(date.clone());
-                if (this.autoApply)
-                    this.clickApply();
+                if (this.autoApply) {
+                  this.calculateChosenLabel();
+                  this.clickApply();
+                }
             }
 
             if (this.singleDatePicker) {
@@ -1328,6 +1318,32 @@
 
             this.updateView();
 
+        },
+
+        calculateChosenLabel: function() {
+          var customRange = true;
+          var i = 0;
+          for (var range in this.ranges) {
+              if (this.timePicker) {
+                  if (this.startDate.isSame(this.ranges[range][0]) && this.endDate.isSame(this.ranges[range][1])) {
+                      customRange = false;
+                      this.chosenLabel = this.container.find('.ranges li:eq(' + i + ')').addClass('active').html();
+                      break;
+                  }
+              } else {
+                  //ignore times when comparing dates if time picker is not enabled
+                  if (this.startDate.format('YYYY-MM-DD') == this.ranges[range][0].format('YYYY-MM-DD') && this.endDate.format('YYYY-MM-DD') == this.ranges[range][1].format('YYYY-MM-DD')) {
+                      customRange = false;
+                      this.chosenLabel = this.container.find('.ranges li:eq(' + i + ')').addClass('active').html();
+                      break;
+                  }
+              }
+              i++;
+          }
+          if (customRange) {
+              this.chosenLabel = this.container.find('.ranges li:last').addClass('active').html();
+              this.showCalendars();
+          }
         },
 
         clickApply: function(e) {
