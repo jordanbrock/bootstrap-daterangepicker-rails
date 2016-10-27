@@ -1511,10 +1511,8 @@
 
                 if (isRight) {
                     this.container.find('input[name="daterangepicker_start"]').val(this.startDate.format(this.locale.format));
-                    this.element.trigger('setStartDate.daterangepicker', this);
                 } else {
                     this.container.find('input[name="daterangepicker_end"]').val(this.endDate.format(this.locale.format));
-                    this.element.trigger('setEndDate.daterangepicker', this);
                 }
 
             }
