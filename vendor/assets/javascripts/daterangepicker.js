@@ -1021,10 +1021,8 @@
                 return;
 
             this.container.find('input[name=daterangepicker_start]').val(this.startDate.format(this.locale.format));
-            this.element.trigger('setStartDate.daterangepicker', this);
             if (this.endDate)
                 this.container.find('input[name=daterangepicker_end]').val(this.endDate.format(this.locale.format));
-                this.element.trigger('setEndDate.daterangepicker', this);
 
             if (this.singleDatePicker || (this.endDate && (this.startDate.isBefore(this.endDate) || this.startDate.isSame(this.endDate)))) {
                 this.container.find('button.applyBtn').removeAttr('disabled');
@@ -1326,10 +1324,12 @@
                 }
                 this.endDate = null;
                 this.setStartDate(date.clone());
+                this.element.trigger('setStartDate.daterangepicker', this);
             } else if (!this.endDate && date.isBefore(this.startDate)) {
                 //special case: clicking the same date for start/end,
                 //but the time of the end date is before the start date
                 this.setEndDate(this.startDate.clone());
+                this.element.trigger('setEndDate.daterangepicker', this);
             } else { // picking end
                 if (this.timePicker) {
                     var hour = parseInt(this.container.find('.right .hourselect').val(), 10);
@@ -1345,6 +1345,7 @@
                     date = date.clone().hour(hour).minute(minute).second(second);
                 }
                 this.setEndDate(date.clone());
+                this.element.trigger('setEndDate.daterangepicker', this);
                 if (this.autoApply) {
                   this.calculateChosenLabel();
                   this.clickApply();
@@ -1353,6 +1354,7 @@
 
             if (this.singleDatePicker) {
                 this.setEndDate(this.startDate);
+                this.element.trigger('setEndDate.daterangepicker', this);
                 if (!this.timePicker)
                     this.clickApply();
             }
@@ -1471,10 +1473,12 @@
                 start.minute(minute);
                 start.second(second);
                 this.setStartDate(start);
+                this.element.trigger('setStartDate.daterangepicker', this);
                 if (this.singleDatePicker) {
                     this.endDate = this.startDate.clone();
                 } else if (this.endDate && this.endDate.format('YYYY-MM-DD') == start.format('YYYY-MM-DD') && this.endDate.isBefore(start)) {
                     this.setEndDate(start.clone());
+                    this.element.trigger('setEndDate.daterangepicker', this);
                 }
             } else if (this.endDate) {
                 var end = this.endDate.clone();
@@ -1482,6 +1486,7 @@
                 end.minute(minute);
                 end.second(second);
                 this.setEndDate(end);
+                this.element.trigger('setEndDate.daterangepicker', this);
             }
 
             //update the calendars so all clickable dates reflect the new time component
