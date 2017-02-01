@@ -54,7 +54,7 @@ $(document).ready(function() {
 
 # for a simple_form field just do something like this and include the above javascript
 
-= f.input :field_name, input_html: { class: "daterange" }
+= f.input :field_name, input_html: { class: "daterange" }, as: :string
 
 ```
 
