@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.summary = %q{Rails 4.1x plugin to allow for the easy use of Dan Grossman's Bootstrap DateRangePicker}
   s.description = %q{Rails 4.1.x plugin to allow for the easy use of Dan Grossman's Bootstrap DateRangePicker}
 
-  s.add_dependency 'railties', '>= 4.0', '< 5.2'
+  s.add_dependency 'railties', '>= 4.0', '< 5.3'
   s.add_development_dependency 'test-unit',    '~> 2.2'
 
   s.files         = Dir['{lib,vendor}/**/*'] + %w{LICENSE README.md Rakefile}
