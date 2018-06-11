@@ -1,7 +1,7 @@
 module Bootstrap
   module Daterangepicker
     module Rails
-      VERSION = '0.1.8'
+      VERSION = '3.0.3'
     end
   end
 end
