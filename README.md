@@ -2,19 +2,19 @@
 
 _Description from DateRangePicker for Twitter Bootstrap_
 
-This date range picker component for Twitter Bootstrap creates a dropdown menu from which a user can 
+This date range picker component for Twitter Bootstrap creates a dropdown menu from which a user can
 select a range of dates. It was created for the reporting UI at [Improvely](http://www.improvely.com).
 
-If invoked with no options, it will present two calendars to choose a start 
-and end date from. Optionally, you can provide a list of date ranges the user can select from instead 
-of choosing dates from the calendars. If attached to a text input, the selected dates will be inserted 
+If invoked with no options, it will present two calendars to choose a start
+and end date from. Optionally, you can provide a list of date ranges the user can select from instead
+of choosing dates from the calendars. If attached to a text input, the selected dates will be inserted
 into the text box. Otherwise, you can provide a custom callback function to receive the selection.
 
 [Live demo &amp; option usage examples](http://www.dangrossman.info/2012/08/20/a-date-range-picker-for-twitter-bootstrap/)
 
 ## Installation and Usage
 
-This component relies on [Twitter Bootstrap](http://twitter.github.com/bootstrap/), 
+This component relies on [Twitter Bootstrap](http://twitter.github.com/bootstrap/),
 [momentjs](http://www.momentjs.com/) and [jQuery](http://jquery.com/).
 
 Basic usage (with Bootstrap 3)
@@ -38,10 +38,10 @@ gem 'bootstrap-daterangepicker-rails'
 
 /*
  *= require bootstrap
- *= require daterangepickers
+ *= require daterangepicker
  */
- 
- 
+
+
 # In your HTML file
 
 <input type="text" class="daterange"/>
@@ -76,8 +76,8 @@ Thanks to https://github.com/allomov for doing all the work on the 4.x branch.
 
 ## License
 
-This code is made available under the [Apache License v2.0](http://www.apache.org/licenses/LICENSE-2.0), 
+This code is made available under the [Apache License v2.0](http://www.apache.org/licenses/LICENSE-2.0),
 the same as Twitter Bootstrap.
 
-Date.js is included in this repository for convenience. It is available under the 
+Date.js is included in this repository for convenience. It is available under the
 [MIT license](http://www.opensource.org/licenses/mit-license.php).
