@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/jordanbrock/bootstrap-daterangepicker-rails}
   s.summary = %q{Rails 4.1x plugin to allow for the easy use of Dan Grossman's Bootstrap DateRangePicker}
   s.description = %q{Rails 4.1.x plugin to allow for the easy use of Dan Grossman's Bootstrap DateRangePicker}
+  s.licenses = ["Apache 2.0", "MIT"]
 
   s.add_dependency 'railties', '>= 4.0'
   s.add_development_dependency 'test-unit',    '~> 2.2'
